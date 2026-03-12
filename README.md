@@ -1,6 +1,6 @@
 # raylib-base
 
-`git clone --recursive https://github.com/lixirs/raylib-base.git`
+`git clone --recursive https://github.com/lixirs/TP1.git`
 
 ## To Build:
 Pour travailler sur ce projet vous devez ouvrir `vscode` au dossier du répertoire du repository.
