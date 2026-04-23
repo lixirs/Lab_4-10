@@ -24,14 +24,34 @@ int main(int argc, char** argv){
 
   Cmd cmd = {0};
 
-  nob_cc(&cmd);
+  // Use g++ (C++ compiler) instead of cc
+  cmd_append(&cmd, "g++");
   cmd_append(&cmd,"-ggdb3");
-  nob_cc_inputs(&cmd, "./src/main.cpp",temp_sprintf("./src/%s.cpp",LAB_NAME));
+  cmd_append(&cmd,"-std=c++17");  // Enable C++17 features
+
+  // Automatically append all .cpp files in src/ directory
+  const char *src_files[] = {
+    "Ball.cpp",
+    "Breakout.cpp",
+    "Brick.cpp",
+    "main.cpp",
+    "Paddle.cpp",
+    "StartButton.cpp",
+    "World.cpp",
+    "entrypoint.cpp"
+  };
+  
+  for (size_t i = 0; i < ARRAY_LEN(src_files); ++i) {
+    cmd_append(&cmd, temp_sprintf("./src/%s", src_files[i]));
+  }
+
   cmd_append(&cmd,RAYLIB_INCLUDES);
   for(int i =0; i < o_files.count;++i){
       cmd_append(&cmd,o_files.items[i]);
   }
-  nob_cc_output(&cmd, "./Deployment/game.exe");
+  cmd_append(&cmd, "-o");
+  cmd_append(&cmd, "./Deployment/game.exe");
   cmd_append(&cmd,RAYLIB_LFLAGS);
+  cmd_append(&cmd, "-lstdc++");  // Link C++ standard library
   if(!cmd_run_sync_and_reset(&cmd)) return 1;
 }

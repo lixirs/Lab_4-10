@@ -1,8 +1,17 @@
 #include "entrypoint.h"
+#include "Breakout.h"
 
-//Creer votre class Engin ici et appeler une fonction start que vous définisser à la classe dans la fonction raylib_start plus bas.
-void raylib_start(void){
-    // Example:
-    // Engine eng = Engine();
-    // eng.start();
+void raylib_start(void)
+{
+    Game* game = new Breakout();
+    game->Init();
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        game->Update(GetFrameTime());
+        game->Draw();
+        EndDrawing();
+    }
+    game->Deinit();
+    CloseWindow();
 }
